@@ -1,0 +1,73 @@
+.custom {
+    background: url(../img/background5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.login {
+    background: url(../img/login_page.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.image{
+    margin-top: 350px;
+}
+
+
+.profile{
+    margin:0 auto;
+    top: 10px !important;
+    max-height: 180px !important;
+    width: 100%  !important;
+    text-align: center;
+}
+
+h1{ 
+    font-size:1.3rem;
+}
+
+.list .item-avatar{
+    background-color: rgba(0, 0, 0, 0) !important;
+    color: fff;
+
+}
+
+.item {
+    background-color: rgba(0, 0, 0, 0) !important;
+    color: fff;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#map_canvas {
+    height: 80%;
+    width: 100%;
+}
+
+.scroll {
+    height: 100%;
+}
+
+.avatar {
+    border-radius: 150px;
+    border-color: dimgrey;
+    border-width: medium;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.row{
+    
+    border-style: none!important;
+    
+}
+
+

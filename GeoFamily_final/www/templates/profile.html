@@ -1,0 +1,30 @@
+<ion-view view-title="Profile" class="custom">
+    <ion-content>
+        
+    <div class="list">    
+       
+            <div class="profile">
+                <a class="item item-thumbnail" href="#">
+                      <img src="{{User.profileImage}}">
+                    <h1>{{User.displayName}}</h1>
+                </a> 
+            </div>
+                  
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Your email</span>
+                <input type="text" placeholder="email" id="email" ng-model="User.email">
+            </label>
+
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Telephone number</span>
+                <input type="text" placeholder="telephone number" id="tel" ng-model="User.tel">
+            </label>
+
+            <button class="button button-block button-dark" ng-click="saveProfile()">
+                Save profile
+            </button>
+
+        
+    </div>
+    </ion-content>
+</ion-view>
