@@ -1,0 +1,5 @@
+src/*
+.idea/*
+karma.conf.js
+Gruntfile.js
+.npmignore
