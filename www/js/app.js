@@ -90,6 +90,27 @@ angular.module('starter', ['ionic','starter.controllers','firebase','ngCordova']
       }
     }
   })
+ 
+   .state('app.todo', {
+      url: '/todo',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/todo.html',
+            controller: 'TodoCtrl'
+        }
+      }
+    })
+  
+  .state('app.shopping', {
+      url: '/shopping',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/shopping.html',
+            controller: 'ShoppingCtrl'
+        }
+      }
+    })
+  
   
   
   // if none of the above states are matched, use this as the fallback
