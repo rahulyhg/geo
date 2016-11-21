@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.factory('UserFamily', function () {
+/*.factory('UserFamily', function () {
 
     return {
         get: function (userId) {
@@ -49,6 +49,55 @@ angular.module('starter.controllers', [])
             return FamilyMembers;
         }
     }
+})*/
+
+.factory('UserFamily', function ($q) {
+
+    return {
+//funkcja get tworzy deferer i zwraca promise        
+        get: function (userId) {
+
+//odroczenie dla obiektu def dopóki nie będzie resolve
+            var def = $q.defer();
+
+            var FamilyMembers = [];
+            var ref = new Firebase("https://geofamily.firebaseio.com/users/" + userId + "/familyNick");
+                
+//funkcja asynchroniczna            
+            ref.on("value", function (snapshot) {
+                var familyNick = snapshot.val();
+
+                var refAll = new Firebase("https://geofamily.firebaseio.com/users");
+                var query = refAll.orderByChild("familyNick").equalTo(family);
+
+                query.on("child_added", function (membersSnapshot) {
+
+                    var displayName = membersSnapshot.val().displayName;
+                    var profileImage = membersSnapshot.val().profileImage;
+                    var long = membersSnapshot.val().location.long;
+                    var lat = membersSnapshot.val().location.lat;
+
+                    FamilyMembers.push({
+                        displayName, profileImage, long, lat
+                    });
+
+                    def.resolve(FamilyMembers);
+
+                });
+            });
+//zwracanie obietnicy odpowiedzi
+            return def.promise;
+
+        }
+    }
+})
+
+
+.factory('Shoppings', function () {
+    return {
+        item: '',
+        addedBy: ''
+    };
 })
 
 .controller('AppCtrl', function ($scope, $ionicModal) {
@@ -94,7 +143,6 @@ angular.module('starter.controllers', [])
 
                 if (snapshot.hasChild(fbUser.id)) {
 
-                    // $state.go('app.profile');
                     $state.go('app.map');
 
                 } else {
@@ -105,6 +153,7 @@ angular.module('starter.controllers', [])
                         profileImage: fbUser.profileImageURL,
                         email: null,
                         tel: null,
+                        familyNick: null,
                         family: null,
                         location: null
                     });
@@ -113,7 +162,6 @@ angular.module('starter.controllers', [])
                 }
             });
 
-            //$state.go('app.map');
 
         }).catch(function (error) {
             console.log(error);
@@ -135,6 +183,9 @@ angular.module('starter.controllers', [])
     userRef.once('value', function (snapshot) {
         $scope.User.email = snapshot.val().email;
         $scope.User.tel = snapshot.val().tel;
+        $scope.User.familyNick = snapshot.val().familyNick;
+
+
     });
 
     $scope.saveProfile = function () {
@@ -143,22 +194,18 @@ angular.module('starter.controllers', [])
 
         userRef.update({
             email: $scope.User.email,
-            //localStorage.setItem("email", "email");
-            tel: $scope.User.tel
+            tel: $scope.User.tel,
+            familyNick: $scope.User.familyNick
         });
 
-        //localStorage.setItem("Email", "email");
-
-        // todo zapis danych do profilu
-
-        $state.go('app.addfamily');
+        $state.go('app.map');
 
     }
 
 
 })
 
-.controller('AddCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
+/*.controller('AddCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
 
     $scope.User = User;
 
@@ -181,7 +228,7 @@ angular.module('starter.controllers', [])
 
     }
 
-})
+})*/
 
 .controller('FamilyCtrl', function ($scope, $stateParams, $firebaseArray, $state, User, UserFamily) {
 
@@ -193,69 +240,83 @@ angular.module('starter.controllers', [])
 
 .controller('TodoCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
 
-   
 
-        $state.go('app.todo');
+
+    $state.go('app.todo');
 
 
 
 })
 
-.controller('ShoppingCtrl', function ($scope, $stateParams, $firebaseArray, $state, User, $ionicModal) {
-   /* $scope.shoppingList = [];
-    $scope.shoppingItem = {
-        title: null
-    };
-    
-    $scope.addItem = function() {
-        $scope.shoppingList.push(angular.copy($scope.shoppingItem));
-        $scope.shoppingItem.title = null;
-    };*/
-    
-     $scope.tasks = [
-    { title: 'Collect coins' },
-    { title: 'Eat mushrooms' },
-    { title: 'Get high enough to grab the flag' },
-    { title: 'Find the Princess' }
+.controller('ShoppingCtrl', function ($scope, $stateParams, $firebaseArray, $state, Shoppings, $ionicModal) {
+
+    $scope.tasks = [
+        {
+            title: 'Collect coins'
+        },
+        {
+            title: 'Eat mushrooms'
+        },
+        {
+            title: 'Get high enough to grab the flag'
+        },
+        {
+            title: 'Find the Princess'
+        }
   ];
 
-  // Create and load the Modal
-  $ionicModal.fromTemplateUrl('/templates/new-task.html', function(modal) {
-    $scope.taskModal = modal;
-  }, {
-    scope: $scope,
-    animation: 'slide-in-up'
-  });
-
-  // Called when the form is submitted
-  $scope.createTask = function(task) {
-    $scope.tasks.push({
-      title: task.title
+    // Create and load the Modal
+    $ionicModal.fromTemplateUrl('/templates/new-task.html', function (modal) {
+        $scope.taskModal = modal;
+    }, {
+        scope: $scope,
+        animation: 'slide-in-up'
     });
-    $scope.taskModal.hide();
-    task.title = "";
-  };
 
-  // Open our new task modal
-  $scope.newTask = function() {
-    $scope.taskModal.show();
-  };
+    // Called when the form is submitted
+    $scope.createTask = function (task) {
+        $scope.tasks.push({
+            title: task.title
+        });
+        $scope.taskModal.hide();
+        task.title = "";
+    };
 
-  // Close the new task modal
-  $scope.closeNewTask = function() {
-    $scope.taskModal.hide();
+    // Open our new task modal
+    $scope.newTask = function () {
+        $scope.taskModal.show();
+    };
 
-  };
+    // Close the new task modal
+    $scope.closeNewTask = function () {
+        $scope.taskModal.hide();
 
-    $scope.deleteTask = function(index) {
-    $scope.tasks.splice(index,1);
+    };
 
-  };
-    
+    $scope.deleteTask = function (index) {
+        $scope.tasks.splice(index, 1);
 
-    
+    };
+
+
+
+    $scope.addShoppingItem = function () {
+
+        $scope.Shoppings = Shoppings;
+        var shoppingItem = new Firebase("https://geofamily.firebaseio.com/shoppingList/" + $scope.Shoppings);
+
+        shoppingItem.once('value', function (snapshot) {
+            $scope.Shoppings.item = snapshot.val().item;
+            $scope.Shoppings.addedBy = snapshot.val().addedBy;
+        });
+
+        $state.go('app.shopping');
+
+    }
+
+
+
 })
-
 
 
 
@@ -264,19 +325,18 @@ angular.module('starter.controllers', [])
     // wyswietlanie zdjec
     $scope.User = User;
 
-    $scope.Family = UserFamily.get($scope.User.uid);
+    var familyMembersPromise = UserFamily.get($scope.User.uid);
+    familyMembersPromise.then(function (members) {
+        $scope.Family = members;
+    });
     
     setInterval(function () {
-        $scope.Family = UserFamily.get($scope.User.uid);        
+        $scope.Family = UserFamily.get($scope.User.uid);
     }, 3000);
 
     //--pobranie koordynatow przy pierwszym logowaniu i ich update   
 
     ionic.Platform.ready(function () {
-
-        console.log("READY: ");
-        console.log($scope.Family);
-
 
         $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
@@ -343,13 +403,13 @@ angular.module('starter.controllers', [])
         $scope.showLocation = function (familyMemberIndex) {
 
             //alert($scope.Family[familyMemberIndex].displayName);
-            
+
             var watchOptions = {
-            timeout: 3000,
-            maximumAge: 3600000,   // pojawił się Alert code:3 message: Timeout expired
-            enableHighAccuracy: true    
+                timeout: 3000,
+                maximumAge: 3600000, // pojawił się Alert code:3 message: Timeout expired
+                enableHighAccuracy: true
             };
-            
+
             var watch = $cordovaGeolocation.watchPosition(watchOptions);
             watch.then(
                 null,
@@ -363,7 +423,7 @@ angular.module('starter.controllers', [])
                     var long = $scope.Family[familyMemberIndex].long;
 
                     var myLatlng = new google.maps.LatLng(lat, long);
-                    
+
                     var mapOptions = {
                         center: myLatlng,
                         zoom: 16,

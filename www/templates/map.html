@@ -1,4 +1,6 @@
 <ion-view view-title="Map" class="custom">  
+    
+    
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <ion-content ng-controller="MapCtrl">
           
@@ -6,7 +8,6 @@
             
                 <div class="row">
                       <ion-item class="item-profile" ng-repeat="member in Family" ng-click="showLocation($index)">
-                         
                             <img class="avatar" ng-src="{{member.profileImage}}">
                         
                       </ion-item>  

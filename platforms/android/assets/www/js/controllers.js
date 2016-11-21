@@ -51,6 +51,13 @@ angular.module('starter.controllers', [])
     }
 })
 
+.factory('Shoppings', function () {
+    return {
+        item: '',
+        addedBy: ''
+    };
+})
+
 .controller('AppCtrl', function ($scope, $ionicModal) {
 
     //-------------dane testowe
@@ -190,6 +197,100 @@ angular.module('starter.controllers', [])
     $scope.Family = UserFamily.get($scope.User.uid);
 
 })
+
+.controller('TodoCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
+
+   
+
+        $state.go('app.todo');
+
+
+
+})
+
+.controller('ShoppingCtrl', function ($scope, $stateParams, $firebaseArray, $state, Shoppings, $ionicModal) {
+ 
+     $scope.tasks = [
+    { title: 'Collect coins' },
+    { title: 'Eat mushrooms' },
+    { title: 'Get high enough to grab the flag' },
+    { title: 'Find the Princess' }
+  ];
+
+  // Create and load the Modal
+  $ionicModal.fromTemplateUrl('/templates/new-task.html', function(modal) {
+    $scope.taskModal = modal;
+  }, {
+    scope: $scope,
+    animation: 'slide-in-up'
+  });
+
+  // Called when the form is submitted
+  $scope.createTask = function(task) {
+    $scope.tasks.push({
+      title: task.title
+    });
+    $scope.taskModal.hide();
+    task.title = "";
+  };
+
+  // Open our new task modal
+  $scope.newTask = function() {
+    $scope.taskModal.show();
+  };
+
+  // Close the new task modal
+  $scope.closeNewTask = function() {
+    $scope.taskModal.hide();
+
+  };
+
+    $scope.deleteTask = function(index) {
+    $scope.tasks.splice(index,1);
+
+  };
+    
+$scope.addShoppingItem = function () {
+
+        $scope.Shoppings = Shoppings;
+        var shoppingItem = new Firebase("https://geofamily.firebaseio.com/shoppingList/" + $scope.Shoppings);
+
+        shoppingItem.once('value', function (snapshot) {
+        $scope.Shoppings.item = snapshot.val().item;
+        $scope.Shoppings.addedBy = snapshot.val().addedBy;
+    });
+
+        $state.go('app.shopping');
+
+    }
+    
+
+    
+})
+
+/*$scope.User = User;
+    var userRef = new Firebase("https://geofamily.firebaseio.com/users/" + $scope.User.uid);
+    userRef.once('value', function (snapshot) {
+        $scope.User.email = snapshot.val().email;
+        $scope.User.tel = snapshot.val().tel;
+    });
+
+    $scope.saveProfile = function () {
+
+        var userRef = new Firebase("https://geofamily.firebaseio.com/users/" + $scope.User.uid);
+
+        userRef.update({
+            email: $scope.User.email,
+            //localStorage.setItem("email", "email");
+            tel: $scope.User.tel
+        });
+
+        //localStorage.setItem("Email", "email");
+
+        // todo zapis danych do profilu
+
+        $state.go('app.addfamily');*/
+
 
 
 .controller('MapCtrl', function ($scope, $stateParams, $cordovaGeolocation, $ionicLoading, $state, $firebaseArray, User, UserFamily) {
