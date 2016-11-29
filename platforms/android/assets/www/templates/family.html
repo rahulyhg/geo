@@ -1,11 +1,11 @@
 <ion-view view-title="Family" class="custom">
   <ion-content>
 
-        <ion-item class="item item-avatar" ng-repeat="member in Family" type="item-text-wrap" ng-controller="FamilyCtrl" >
+        <ion-item class="item item-avatar" ng-repeat="member in FamilyMembers" type="item-text-wrap" ng-controller="FamilyCtrl" >
           <img ng-src="{{member.profileImage}}"> 
         
           <h2>{{member.displayName}}</h2>
-          <!---------<p>Back off, man. I'm a scientist.</p>--->
+         
         </ion-item>
 
   </ion-content>

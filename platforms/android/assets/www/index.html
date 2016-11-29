@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="starter">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -10,35 +11,47 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-      
+
     <!-- ng-cordova-Oauth
      <script src="lib/ng-cordova-oauth/dist/ng-cordova-oauth.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-    
-     <!-- Firebase -->
+
+    <!-- Firebase -->
     <script src="lib/firebase.js"></script>
-    
+
     <!-- AngularFire -->
     <script src="lib/angularfire.min.js"></script>
 
     <!-- NG Cordova -->
-    <script src="lib/ng-cordova/dist/ng-cordova.min.js"></script>  
-      
+    <script src="lib/ng-cordova/dist/ng-cordova.min.js"></script>
+
     <!-- NG Geolocation 
     <script src="lib/ng-geolocation/dist/ng-geolocation.min.js"/> -->
-      
+
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-      
-  </head>
+    <script src="js/services/user.js"></script>
+    <script src="js/services/shoppings.js"></script>
+    <script src="js/services/todo.js"></script>
+    <script src="js/services/userFamily.js"></script>
+    <script src="js/controllers/appCtrl.js"></script>
+    <script src="js/controllers/authCtrl.js"></script>
+    <script src="js/controllers/profileCtrl.js"></script>
+    <script src="js/controllers/familyCtrl.js"></script>
+    <script src="js/controllers/todoCtrl.js"></script>
+    <script src="js/controllers/shoppingCtrl.js"></script>
+    <script src="js/controllers/mapCtrl.js"></script>
+    <script src="js/controllers/shoppingCtrl.js"></script>
 
-  <body ng-controller="AppCtrl" margin-left=20px  class="platform-android platform-cordova platform-webview">
+</head>
+
+<body ng-controller="AppCtrl" margin-left=20px class="platform-android platform-cordova platform-webview">
     <ion-pane>
         <ion-nav-view></ion-nav-view>
     </ion-pane>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwGCXAZKAHQjUSCnqs0oXpKdj8L3BwYRA"></script>
-  </body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwGCXAZKAHQjUSCnqs0oXpKdj8L3BwYRA"></script>
+</body>
+
 </html>

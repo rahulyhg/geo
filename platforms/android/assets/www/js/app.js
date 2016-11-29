@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic','starter.controllers','firebase','ngCordova'])
+angular.module('starter', ['ionic','firebase','ngCordova'])
 
 .run(function($ionicPlatform, $rootScope, $firebaseAuth, $firebase, $window, $ionicLoading) {
   $ionicPlatform.ready(function() {
@@ -50,16 +50,7 @@ angular.module('starter', ['ionic','starter.controllers','firebase','ngCordova']
     }
   })
   
-  .state('app.addfamily', {
-    url: '/addfamily',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/addfamily.html',
-          controller: 'AddCtrl'
-      }
-    }
-  })
-
+ 
   .state('app.map', {
       url: '/map',
       views: {

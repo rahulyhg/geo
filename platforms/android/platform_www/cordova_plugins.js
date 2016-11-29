@@ -38,6 +38,19 @@ module.exports = [
             "cordova.plugins.Keyboard"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
+        "id": "cordova-plugin-x-toast.Toast",
+        "pluginId": "cordova-plugin-x-toast",
+        "clobbers": [
+            "window.plugins.toast"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-x-toast/test/tests.js",
+        "id": "cordova-plugin-x-toast.tests",
+        "pluginId": "cordova-plugin-x-toast"
     }
 ];
 module.exports.metadata = 
@@ -48,7 +61,8 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "3.0.0",
     "cordova-plugin-statusbar": "2.0.0",
     "cordova-plugin-whitelist": "1.2.0",
-    "ionic-plugin-keyboard": "1.0.8"
+    "ionic-plugin-keyboard": "1.0.8",
+    "cordova-plugin-x-toast": "2.5.2"
 }
 // BOTTOM OF METADATA
 });

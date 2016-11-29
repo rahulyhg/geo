@@ -1,0 +1,23 @@
+<div class="modal">
+
+    <!-- Modal header bar -->
+    <ion-header-bar class="bar-secondary">
+        <h1 class="title">New Item</h1>
+        <button class="button button-clear button-stable" ng-click="closeNewTask()">Cancel</button>
+    </ion-header-bar>
+
+    <!-- Modal content area -->
+    <ion-content>
+
+        <form ng-submit="createTask(todo)">
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" placeholder="What do you need to buy?" ng-model="newItem.item">
+                </label>
+            </div>
+            <div class="padding">
+                <button type="submit" class="button button-block button-stable" ng-click="saveNewItem()">Add item</button>
+            </div>
+        </form>
+    </ion-content>
+</div>

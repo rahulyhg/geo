@@ -81,6 +81,27 @@ angular.module('starter', ['ionic','starter.controllers','firebase','ngCordova']
       }
     })
   
+  .state('app.shopping', {
+      url: '/shopping',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/shopping.html',
+            controller: 'ShoppingCtrl'
+        }
+      }
+    })
+  
+  .state('app.todo', {
+      url: '/todo',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/todo.html',
+            controller: 'TodoCtrl'
+        }
+      }
+    })
+  
+  
   .state('app.login-into-menucontent', {
     url: "/login-into-menucontent",
     views: {

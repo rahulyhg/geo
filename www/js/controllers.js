@@ -1,55 +1,4 @@
-angular.module('starter.controllers', [])
-
-.factory('User', function () {
-    return {
-        uid: '',
-        displayName: '',
-        profileImage: ''
-    };
-})
-
-/*.factory('UserFamily', function () {
-
-    return {
-        get: function (userId) {
-
-            var familyTel = new Firebase("https://geofamily.firebaseio.com/users/" + userId);
-            var famtel = ['tel1', 'tel2', 'tel3'];
-
-            var FamilyMembers = [];
-
-
-            for (var telKey in famtel) {
-
-                var telVal = famtel[telKey];
-
-                familyTel.child("family/" + telVal).on("value", function (snapshot) {
-                    var tel = snapshot.val();
-
-                    var ref = new Firebase("https://geofamily.firebaseio.com/users");
-                    var query = ref.orderByChild("tel").equalTo(tel);
-
-                    query.on("child_added", function (telsnapshot) {
-
-                        var displayName = telsnapshot.val().displayName;
-                        var profileImage = telsnapshot.val().profileImage;
-                        var long = telsnapshot.val().location.long;
-                        var lat = telsnapshot.val().location.lat;
-
-                        FamilyMembers.push({
-                            displayName, profileImage, long, lat
-                        });
-
-
-                    });
-
-                });
-            }
-
-            return FamilyMembers;
-        }
-    }
-})*/
+/*angular.module('starter')
 
 .factory('UserFamily', function ($q) {
 
@@ -68,7 +17,7 @@ angular.module('starter.controllers', [])
                 var familyNick = snapshot.val();
 
                 var refAll = new Firebase("https://geofamily.firebaseio.com/users");
-                var query = refAll.orderByChild("familyNick").equalTo(family);
+                var query = refAll.orderByChild("familyNick").equalTo(familyNick);
 
                 query.on("child_added", function (membersSnapshot) {
 
@@ -90,90 +39,21 @@ angular.module('starter.controllers', [])
 
         }
     }
-})
+})*/
 
 
-.factory('Shoppings', function () {
+/*.factory('Shoppings', function () {
     return {
         item: '',
         addedBy: ''
     };
 })
 
-.controller('AppCtrl', function ($scope, $ionicModal) {
-
-    //-------------dane testowe
-
-    /*    var usersRef = new Firebase("https://geofamily.firebaseio.com/users");
-                        var userRef = usersRef.child("999999999");
-                        userRef.set({
-                            uid: "999999999",
-                            displayName: "Penelope Cruz",
-                            profileImage: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ9Twhvr8bt8ncC9dxRHHGJV7EldXHo4rrCw20dhDhyXSi2j-WueUqC2MI",
-                            email: null,
-                            tel: 999999999,
-                            family: null,
-                            location: {
-                                lat:1,
-                                long: 2
-                            }
-                        });*/
-})
-
-.controller('AuthCtrl', function ($scope, Auth, $state, User) {
-
-    $scope.login = function () {
-
-        Auth.$authWithOAuthPopup("facebook").then(function (authData) {
-
-            console.log(authData);
-
-            var fbUser = authData.facebook;
-
-            $scope.User = User;
-            $scope.User.uid = fbUser.id;
-            $scope.User.displayName = fbUser.displayName;
-            $scope.User.profileImage = fbUser.profileImageURL;
-
-            var usersRef = new Firebase("https://geofamily.firebaseio.com/users");
-
-            //sprawdzamy czy uid istnieje
-
-            usersRef.once('value', function (snapshot) {
-
-                if (snapshot.hasChild(fbUser.id)) {
-
-                    $state.go('app.map');
-
-                } else {
-                    var userRef = usersRef.child(fbUser.id);
-                    userRef.set({
-                        uid: fbUser.id,
-                        displayName: fbUser.displayName,
-                        profileImage: fbUser.profileImageURL,
-                        email: null,
-                        tel: null,
-                        familyNick: null,
-                        family: null,
-                        location: null
-                    });
-
-                    $state.go('app.profile');
-                }
-            });
-
-
-        }).catch(function (error) {
-            console.log(error);
-        });
-
-    }
-
-    $scope.logout = function () {
-        Auth.$unauth();
-    }
-
-
+.factory('Todo', function () {
+    return {
+        item: '',
+        addedBy: ''
+    };
 })
 
 .controller('ProfileCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
@@ -203,7 +83,7 @@ angular.module('starter.controllers', [])
     }
 
 
-})
+})*/
 
 /*.controller('AddCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
 
@@ -230,20 +110,82 @@ angular.module('starter.controllers', [])
 
 })*/
 
-.controller('FamilyCtrl', function ($scope, $stateParams, $firebaseArray, $state, User, UserFamily) {
+/*.controller('FamilyCtrl', function ($scope, $stateParams, $firebaseArray, $state, User, UserFamily) {
 
-    $scope.User = User;
+     $scope.User = User;
 
-    $scope.Family = UserFamily.get($scope.User.uid);
+    var familyMembersPromise = UserFamily.get($scope.User.uid);
+    familyMembersPromise.then(function (members) {
+        $scope.FamilyMembers = members;
+    });
 
 })
 
 .controller('TodoCtrl', function ($scope, $stateParams, $firebaseArray, $state, User) {
 
+ $scope.tasks = [
+        {
+            title: 'Poodkurzac'
+        },
+        {
+            title: 'Pranie'
+        },
+        {
+            title: 'Zrobic zakupy'
+        },
+        {
+            title: 'Zlozyc trampoline'
+        }
+  ];
+
+    // Create and load the Modal
+    $ionicModal.fromTemplateUrl('/templates/new-task.html', function (modal) {
+        $scope.taskModal = modal;
+    }, {
+        scope: $scope,
+        animation: 'slide-in-up'
+    });
+
+    // Called when the form is submitted
+    $scope.createTask = function (task) {
+        $scope.tasks.push({
+            title: task.title
+        });
+        $scope.taskModal.hide();
+        task.title = "";
+    };
+
+    // Open our new task modal
+    $scope.newTask = function () {
+        $scope.taskModal.show();
+    };
+
+    // Close the new task modal
+    $scope.closeNewTask = function () {
+        $scope.taskModal.hide();
+
+    };
+
+    $scope.deleteTask = function (index) {
+        $scope.tasks.splice(index, 1);
+
+    };
 
 
-    $state.go('app.todo');
 
+    $scope.addTodoItem = function () {
+
+        $scope.Todo = Todo;
+        var todoItem = new Firebase("https://geofamily.firebaseio.com/todoList/" + $scope.Todo);
+
+        shoppingItem.once('value', function (snapshot) {
+            $scope.Todo.item = snapshot.val().item;
+            $scope.Todo.addedBy = snapshot.val().addedBy;
+        });
+
+        $state.go('app.todo');
+
+    }
 
 
 })
@@ -450,4 +392,4 @@ angular.module('starter.controllers', [])
 
     });
 
-});
+});*/ 

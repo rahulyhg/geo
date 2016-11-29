@@ -1,13 +1,24 @@
-<ion-view view-title="To do" class="custom">
-
-  <!--  <ion-header-bar class="top">
-        <h1 class="title">To do list</h1>
-        <button class="button button-icon ion-plus" ng-click="addItem()"></button>
-    </ion-header-bar>
+<ion-view view-title="Todo List" class="custom">
     <ion-content>
-     
-    </ion-content> !-->
-    
-    
+        <ion-header-bar class="bar-light">
+            <h1 class="title">Item</h1>
+            <!-- New Task button-->
+            <button class="button button-icon" ng-click="newTask()">
+                <i class="icon ion-compose"></i>
+            </button>
+        </ion-header-bar>
+        <ion-content ng-init="initData()">
+            <!-- our list and list items -->
+            <ion-list>
+                <div class="item item-avatar item item-button-right" ng-repeat="todoItem in todos">
+                    {{todoItem.item}} <img ng-src="{{todoItem.addedBy}}">
 
+
+                    <button class="button button-icon" ng-click="deleteItem(todoItem, $index)">
+                        <i class="ion-close-circled"></i>
+                    </button>
+                </div>
+            </ion-list>
+        </ion-content>
+    </ion-content>
 </ion-view>
